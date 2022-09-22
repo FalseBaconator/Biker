@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WheelController : MonoBehaviour
+public class BikeController : MonoBehaviour
 {
 
     public float speed;
     public float turnSpeed;
-    public GameObject frontWheel;
+    public GameObject frontWheelCol;
+    public GameObject backWheelCol;
+    public GameObject frontWheelVis;
+    public GameObject backWheelVis;
 
     private Rigidbody rb;
     private float Movement;
     private float TurnMovement;
-    //private float startRotateX;
-    //private float startRotateY;
-    //private float startRotateZ;
 
 
     void OnMove(InputValue MovementValue)
@@ -29,18 +29,20 @@ public class WheelController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //startRotateX = GetComponent<Transform>().rotation.x;
-        //startRotateY = GetComponent<Transform>().rotation.y;
-        //startRotateZ = GetComponent<Transform>().rotation.z;
     }
 
     private void FixedUpdate()
     {
         Vector3 Move = new Vector3(Movement * speed, 0, 0);
 
-        frontWheel.GetComponent<Rigidbody>().AddForce(Move);
-        rb.AddForce(Move);
-        frontWheel.transform.Rotate(-TurnMovement * turnSpeed, 0, 0);
-        
+        frontWheelCol.GetComponent<Rigidbody>().AddForce(Move);
+        backWheelCol.GetComponent<Rigidbody>().AddForce(Move);
+
+        backWheelVis.transform.SetPositionAndRotation(backWheelCol.transform.position, backWheelCol.transform.rotation);
+        frontWheelVis.transform.SetPositionAndRotation(frontWheelCol.transform.position, frontWheelCol.transform.rotation);
+
+        //rb.AddForce(Move);
+        frontWheelCol.transform.Rotate(-TurnMovement * turnSpeed, 0, 0);
+
     }
 }
